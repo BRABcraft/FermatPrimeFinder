@@ -27,7 +27,7 @@ The factor e^γ/2 converts "no prime factor ≤ √N" into "prime" (Mertens).
 
 | Conditioning | P(F33 prime) | P(F34) | P(F35) | P(at least one new Fermat prime, 33 ≤ n ≤ 160) |
 |---|---|---|---|---|
-| our certified regions (p < 2^54; k < 2^16 for m ≤ 1000; k < 2^12 for m ≤ 3000) | 1.12e−8 | 5.6e−9 | 2.8e−9 | **2.1e−8** |
+| our certified regions (p < 2^54; k < 2^20 for m ≤ 1000; k < 2^12 for m ≤ 3000) | 1.16e−8 | 5.9e−9 | 3.0e−9 | **2.1e−8** |
 | hypothetical: all k < 2^40 cleared | 1.58e−8 | 8.0e−9 | 4.0e−9 | 2.9e−8 |
 | hypothetical: all k < 2^50 cleared | 1.78e−8 | 9.0e−9 | 4.6e−9 | 3.3e−8 |
 | hypothetical: all k < 2^60 cleared | 1.99e−8 | 1.0e−8 | 5.1e−9 | 3.7e−8 |

@@ -75,3 +75,32 @@ PARI/GP 2.15.4. No paid external compute was used.
 * F17: 16.9 s (FFT) vs 26.5 s (full square + reduce). F18: 69 s vs 122 s. F19: 353 s vs 619 s (CPU shared with searches).
 * All residues agree between implementations and are consistent mod every known factor. Cofactors of F12–F19
   (relative to all factors in the dataset) are proven composite by Suyama's test.
+
+## E11 — Adversarial review (Track D, separate agent; report in research/adversarial_review.md)
+* **Real bug found:** `fsearch_gmp` never tested k = KMAX (`nodd = (KMAX−KMIN+1)/2`). Reproduced: `fsearch_gmp 1 7 14 14`
+  missed 7·2^14+1 | F12. Fixed, regression test added, and the three affected boundary values were re-run with the
+  fixed binary (k = 65535 for m ≤ 1000, k = 4095 for 1001 ≤ m ≤ 3000, k = 1048575 for m ≤ 1000). No factors found, so the
+  regions are now complete as stated. A latent p == q sieve guard for QMAX ≥ 2^21 was also fixed.
+* **Proof gap fixed:** Theorem D step (a) now uses [K(α):K] = [ℚ(α) : ℚ(α) ∩ K] (K Galois).
+* **Corrections:** naive Hardy–Wright sum over n ≥ 5 is 0.18 (not 0.09); gain factor is (n+2)e^γ ln2/2;
+  the Boklan–Conway discrepancy is now stated as *unexplained*; the congruence-search null is calibrated by simulation;
+  the ML result is reworded as "not detected (low power)"; the dataset row for fully factored F_n no longer shows a stale Suyama message.
+* **New verified factor for the dataset:** the reviewer proposed 25709319373·2^36+1 for F28. Verified: it divides F28,
+  with a Proth certificate (a = 3). This is consistent with our proof that F28 has no factor < 2^54 (it is ≈ 2^70.6).
+* **Not independent:** both Pépin implementations rely on GMP's multiplication. The residue-mod-known-factor check
+  is the independent part of the verification.
+
+## E12 — H-k3 pre-registered hold-out test (R2c) and mechanism test
+* R2c: 14 factors (13.97 expected). k mod 3 = 4/5/5 vs 7.10/3.45/3.42, shape p = 0.24 → REJECTED by the pre-registered rule.
+  The post-hoc power analysis shows the hold-out had only 8% power. **Lesson: compute power before pre-registering.**
+* Mechanism: among 20,000 primes k·2^m+1 with 3 | k, P(2 is a cubic residue) = 0.3285 (z = −1.45). For k < 2^8 it is 0.3366.
+  The model ingredient is correct, so H-k3 is classified as a fluctuation.
+
+## E13 — Final analysis on all exhaustive regions (84 factors)
+* Total 84 vs 85.3. α̂ = 0.975 [0.93, 1.02], r̂ = 0.545 [0.47, 0.615], LR p = 0.31 (both MC seeds).
+* Calibrated congruence search: 5 nominal hits vs null mean 1.46 (P = 0.053); min-p family-wise P = 0.073.
+* ML: model score AUC 0.995; gradient boosting 0.985; features add nothing detectable.
+
+## E14 — Benchmarks (results/benchmarks.md)
+* `mpn_mul_fft` directly mod F_n: ≈2× faster than square+reduce for n ≥ 18, ≈10× faster than generic mod.
+* F33 Pépin extrapolation: ≈52 s per squaring, ≈1.4·10^4 core-years on this hardware.

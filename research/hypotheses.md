@@ -63,7 +63,7 @@ Statistics are in `results/analysis/summary.json`.
 ### H1. Random-order-of-2 model for factor *counts*. CONSISTENT.
 *Statement.* A prime p = k·2^m+1 (k odd) divides some F_n, n ∈ [12, m−2], with probability (1 − 2^{13−m})/k.
 *Motivation.* 2 is a "random" quadratic residue; Chebotarev for fixed-size families.
-*Evidence.* Total: 76 observed vs 73.0 expected in R1 ∪ R2a ∪ R2b (Poisson p = 0.76). Counting function
+*Evidence.* Total: 84 observed vs 85.3 expected in R1 ∪ R2a ∪ R2b ∪ R2c (final). 76 vs 73.0 before R2c was added. Counting function
 N(2^B) = #{p < 2^B, p | some F_n, n ≥ 5}: observed 1, 1, 2, 6, 11, 13, 15, 17, 20, 27, 31, 36 vs expected
 1.1, 2.1, 5.0, 7.2, 9.6, 12.4, 15.5, 18.6, 21.6, 25.0, 28.3, 31.8 for B = 10, 14, …, 54. All p > 0.24.
 Distribution over ⌊log₂ m⌋: p = 0.67.
@@ -71,8 +71,8 @@ Distribution over ⌊log₂ m⌋: p = 0.67.
 *Consequence.* N(x) ≈ c·log x, so Fermat-divisor primes are exceedingly sparse. The model predicts N(x) ~ log₂ x.
 
 ### H2. Geometric excess law P(e = t) = 2^{−(t+1)}, e = m − n − 2. CONSISTENT; density version PROVED (Theorem D).
-*Evidence.* e = 0, 1, 2, 3, 4, ≥5: observed 36/21/11/1/3/4 vs expected 37.2/18.3/9.0/4.4/2.1/2.1 (shape p = 0.29).
-MLE of the ratio: r̂ = 0.53, 95% CI [0.455, 0.605] ∋ 1/2.
+*Evidence (final, 84 factors).* e = 0, 1, 2, 3, 4, ≥5: observed 39/24/11/1/3/6 vs expected 43.3/21.3/10.5/5.1/2.5/2.5
+(shape p = 0.09). MLE of the ratio: r̂ = 0.545, 95% CI [0.47, 0.615] ∋ 1/2.
 **Theorem D (density form).** Fix m ≥ 3. Among primes p with v₂(p−1) = m, the relative natural density of
 those with v₂(ord_p 2) = m−1−t is 2^{−(t+1)} for 0 ≤ t ≤ m−2, and 2^{−(m−1)} for t = m−1 (odd order).
 *Proof.* Let K = ℚ(ζ_{2^m}) and K' = ℚ(ζ_{2^{m+1}}). The primes with v₂(p−1) = m are those split in K
@@ -100,18 +100,23 @@ literature on divisibility of orders, so **not claimed as new**). The Fermat-fac
 fixed k) remains heuristic but is statistically confirmed (H2 evidence above).
 
 ### H3. The 1/k law: factor intensity ∝ k^{−α} with α = 1. CONSISTENT (rediscovered from data).
-*Evidence.* Maximum likelihood over the exhaustive data with C profiled out: α̂ = 0.955, 95% CI [0.915, 1.005].
-Joint likelihood-ratio test of (α, r) = (1, 1/2): LR = 3.40, p = 0.18 (2 dof). The bit-length(k) distribution has shape p = 0.28.
+*Evidence (final, 84 factors).* Maximum likelihood with C profiled out: α̂ = 0.975, 95% CI [0.93, 1.02]
+(identical under an independent Monte Carlo seed). Joint likelihood-ratio test of (α, r) = (1, 1/2): LR = 2.32, p = 0.31.
+Bit-length(k) distribution: shape p = 0.77. (First pass on 76 factors: α̂ = 0.955 [0.915, 1.005].)
 *Interpretation.* The exponent 1 comes from "2 is a k-th power residue mod p" having probability 1/k. The data
 recover it to within ±5% without being told.
 
 ### H4. Small-modulus structure of k beyond the model. NO EVIDENCE (one pre-registered follow-up: H-k3).
 *Experiment.* Automated conjecture generator: 369 tests (k mod M for 2 ≤ M ≤ 24, all residues; p mod q for
 odd primes q ≤ 31). Observed vs expected under the model, with exact Poisson tails.
-*Result.* 0 tests Bonferroni-significant at 0.05. 11 nominal p < 0.01, roughly as expected for 369 tests of discrete data.
-All structural zeros (classes forbidden by primality, e.g. p ≡ 0 mod q) were respected.
-The strongest raw signals are k ≡ 5 (mod 12) (23 vs 9.5, raw p = 3·10^{−4}, Bonferroni 0.11) and the k mod 3 table
-(shape p = 0.008) → see H-k3.
+*Result (final, after review fixes).* Moduli M ≡ 2 (mod 4) were removed (for odd k they duplicate M/2), leaving
+334 tests. The null was **calibrated by simulation**: the identical search on 300 synthetic datasets drawn from the model.
+Observed: 5 tests with nominal p < 0.01, against a null mean of 1.46 (P(≥ 5 | null) = 0.053). Smallest p = 8.9·10^{−4}
+(k ≡ 5 mod 12: 24 vs 11.0), with family-wise calibrated P(min p ≤ observed) = 0.073. 0 Bonferroni-significant tests.
+All structural zeros were respected. All hits are facets of the k mod 3 imbalance (k ≡ 5 mod 12 ⊂ k ≡ 2 mod 3).
+*Correction:* the first pass said "11 nominal hits, roughly as expected". The reviewer showed that claim was unsupported
+(duplicated tests, no calibrated null). It is replaced by the calibrated statement above.
+**Status: borderline (P ≈ 0.05–0.07 family-wise), driven entirely by H-k3, whose mechanism test is negative.**
 
 ### H5. Machine-learned features improve on the model score for predicting which primes divide Fermat numbers. NOT DETECTED (low power).
 *Design.* Case-control: 66 positives (all factors with p ≤ 600 bits in the exhaustive regions) and 3,960
@@ -166,6 +171,10 @@ k ≡ 5 (mod 11) 0 vs 1.25, so the mod-11 signal did not replicate at all.
 test reaches p < 0.01 in only 8% of simulations even if the discovery-size effect were real, and lands in the "reject"
 zone 69% of the time. The hold-out likelihood ratio is ≈ 2.4 in favour of the discovery-size effect, which is weak evidence.
 So the data do not settle H-k3. Its status rests on the strong prior: the density of 2 being a cubic residue is 1/3
-by Chebotarev and is verified numerically to 0.3% in every m class (E8). **Overall status: most likely noise; not
-confirmed.** Settling it would need ≈ 10× more exhaustive hold-out factors. That costs ~10^2 core-hours with the current CPU code,
+by Chebotarev and is verified numerically to 0.3% in every m class (E8). **Mechanism test (more powerful than factor counts):** the model's only k-mod-3-specific ingredient is
+"2 is a cubic residue mod p" for primes p = k·2^m+1 with 3 | k. Over 20,000 such primes (k < 2^20, 14 ≤ m ≤ 400)
+the fraction is 0.3285 (z = −1.45 vs 1/3). Over 5,000 with k < 2^8 it is 0.3366 (z = +0.49)
+(`results/analysis/cubic_mechanism.json`). So the mechanism behaves exactly as modelled.
+Final full-data table (all 84 exhaustive factors, including the discovery data): 30/22/32 vs 43.1/21.8/20.4. This is not an
+independent test. **Overall status: classified as a statistical fluctuation; not confirmed.** Settling it would need ≈ 10× more exhaustive hold-out factors. That costs ~10^2 core-hours with the current CPU code,
 and less with GPU sieves.
