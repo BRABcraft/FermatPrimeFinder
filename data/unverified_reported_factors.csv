@@ -1,0 +1,4 @@
+n,p_expression,provenance,reason_not_verified
+414677,39701*2^414679+1,Batalov & Propper 2025-01 [snippet: fermatsearch news],verification needs ~414677 squarings of ~414677-bit numbers; skipped
+3943261,1085*2^3943263+1,Dinkel / PrimeGrid 2025-12 [snippet: fermatsearch news],verification needs ~3943261 squarings of ~3943261-bit numbers; skipped
+5798447,99*2^5798449+1,V. Cavecchia 2025-01 [snippet: fermatsearch news],verification needs ~5798447 squarings of ~5798447-bit numbers; skipped

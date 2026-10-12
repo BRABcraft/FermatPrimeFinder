@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+src/c/fsearch64
+src/c/fsearch_gmp
+src/c/pepin_fft

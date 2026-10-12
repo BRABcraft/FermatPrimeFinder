@@ -1,0 +1,3 @@
+F29: claimed factor 1120048333814181889 does NOT divide F29 ([recalled, Keller table]; verified here)
+F12: divisor 2983954661377 is composite (BPSW (deterministic < 2^64)); not a prime factor (exhaustive search (this work): fsearch64_B54.txt)
+F12: divisor 7313319444481 is composite (BPSW (deterministic < 2^64)); not a prime factor (exhaustive search (this work): fsearch64_B54.txt)

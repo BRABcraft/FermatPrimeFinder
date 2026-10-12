@@ -1,0 +1,17 @@
+{
+ "n": 5,
+ "time_B_s": 0.0,
+ "impl": "B",
+ "verdict": "COMPOSITE",
+ "res64": "00000000009d894f",
+ "SH_residues": [
+  10324303,
+  10324303,
+  10324303
+ ],
+ "known_factors": [
+  "641"
+ ],
+ "cofactor_digits": 7,
+ "suyama": "cofactor C7 is a base-3 probable prime (Suyama) - needs proof"
+}

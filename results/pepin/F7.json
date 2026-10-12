@@ -1,0 +1,17 @@
+{
+ "n": 7,
+ "time_B_s": 0.0,
+ "impl": "B",
+ "verdict": "COMPOSITE",
+ "res64": "95984e80e902c504",
+ "SH_residues": [
+  3909272836,
+  44591026080,
+  5799525263
+ ],
+ "known_factors": [
+  "59649589127497217"
+ ],
+ "cofactor_digits": 22,
+ "suyama": "cofactor C22 is a base-3 probable prime (Suyama) - needs proof"
+}

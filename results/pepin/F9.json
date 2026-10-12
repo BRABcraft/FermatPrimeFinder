@@ -1,0 +1,20 @@
+{
+ "n": 9,
+ "time_A_s": 0.005,
+ "impl_A_output": "n=9 verdict=COMPOSITE SH_residues=(19661770102, 54966870189, 28173182079) res64=b8e74a7493eecd76 k_fft=3 squarings=511 time=0.001s per_sq=0.00109ms",
+ "time_B_s": 0.0,
+ "impl": "A+B (agree)",
+ "verdict": "COMPOSITE",
+ "res64": "b8e74a7493eecd76",
+ "SH_residues": [
+  19661770102,
+  54966870189,
+  28173182079
+ ],
+ "known_factors": [
+  "2424833",
+  "7455602825647884208337395736200454918783366342657"
+ ],
+ "cofactor_digits": 99,
+ "suyama": "cofactor C99 is a base-3 probable prime (Suyama) - needs proof"
+}

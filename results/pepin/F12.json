@@ -1,0 +1,22 @@
+{
+ "n": 12,
+ "time_A_s": 0.027,
+ "impl_A_output": "n=12 verdict=COMPOSITE SH_residues=(64546579219, 3387502849, 5300454051) res64=06c3171f0746a313 k_fft=5 squarings=4095 time=0.021s per_sq=0.00523ms",
+ "time_B_s": 0.006,
+ "impl": "A+B (agree)",
+ "verdict": "COMPOSITE",
+ "res64": "06c3171f0746a313",
+ "SH_residues": [
+  64546579219,
+  3387502849,
+  5300454051
+ ],
+ "known_factors": [
+  "114689",
+  "190274191361",
+  "1256132134125569",
+  "568630647535356955169033410940867804839360742060818433"
+ ],
+ "cofactor_digits": 1148,
+ "suyama": "cofactor C1148 proven composite (Suyama test, this work)"
+}
