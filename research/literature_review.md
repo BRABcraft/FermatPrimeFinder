@@ -92,16 +92,16 @@ implementations use the weighted (negacyclic) FFT/DWT of Crandall–Fagin, which
 ## 4. Heuristics on the number of Fermat primes
 
 * **Hardy–Wright style.** Treat F_n as a random odd integer of its size. Then
-  P(prime) ≈ 2/ln F_n ≈ 2.9/2^n. Summing over n ≥ 5 gives ≈ 0.09 expected new primes. Restricting to
-  n ≥ 33 gives ≈ 7·10^{-10}.
+  P(prime) ≈ 2/ln F_n ≈ 2.885/2^n. Summing over n ≥ 5 gives ≈ 0.18 expected new primes. Restricting to
+  n ≥ 33 gives ≈ 6.7·10^{-10}. *(Corrected from 0.09 after review.)*
 * **Factor-shape-aware heuristic.** Here p | F_n is only possible for p ≡ 1 (mod 2^{n+2}), and
   Prob(p | F_n) ≈ 2^{n+1}/(p−1) for such p. A Mertens-type product then gives
   P(F_n prime | no factor ≤ B) ≈ ln B / ln √F_n = 2·log₂B / 2^n. The unconditional version
-  with B ≈ 2^{n+2} gives P ≈ (n+2)/2^{n−1}, which is much larger than the naive 2.9/2^n,
-  because Fermat numbers have no small prime factors.
+  with B ≈ 2^{n+2} gives P ≈ (e^γ/2)(n+2)/2^{n−1}. That is a factor (n+2)·e^γ·ln2/2 ≈ 0.62(n+2) larger than the
+  naive 2.885/2^n, because Fermat numbers structurally have no prime factors below 2^{n+2}.
 * **Boklan & Conway (2016/2017),** *"Expect at most one billionth of a new Fermat prime!"*, Math.
-  Intelligencer 39(1), arXiv:1605.01371 [S]. They argue the special form of factors makes F_n
-  *more* likely to be prime than a random number. Their headline estimate is that, given the known compositeness
+  Intelligencer 39(1), arXiv:1605.01371 [S]. The search snippets indicate they discuss the special form of factors
+  (Euler–Lucas) as a reason the naive Hardy–Wright argument needs correcting. How exactly they use it could not be checked. Their headline estimate is that, given the known compositeness
   data, the probability of any further Fermat prime is < 10^{-9}. We could not read the
   full text, so in `results/heuristic_probability.md` we re-derive a version from first
   principles using current search limits.

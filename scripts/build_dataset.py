@@ -64,6 +64,8 @@ LITERATURE_FACTORS = [  # (n, p, provenance)
     (27, 231292694251438081, "[recalled, Keller table]"),
     (29, 1120048333814181889, "[recalled, Keller table] -- garbled recall; true factor 1120049*2^31+1 found by our search"),
     (28, 25463 * 2**30 + 1, "[recalled, Keller table] -- wrong recall"),
+    (28, 25709319373 * 2**36 + 1,
+     "proposed by the adversarial-review agent from recall of Keller's table (Taura 1997?) [unconfirmed attribution]"),
     (31, 46931635677864055013377, "A. Kruppa 2001-04-12 [snippet: aliquot list / Prime-Wiki]"),
     (251, 322072887044529 * 2**253 + 1, "G. Gostin 2025-05-24 [snippet: fermatsearch news]"),
     (3135, 36812439837 * 2**3144 + 1, "G. Gostin 2025-11 [snippet: fermatsearch news]"),
@@ -173,8 +175,6 @@ def main():
     lit_composite_no_factor = {
         20: "Young & Buell 1988 (Pepin); no factor known",
         24: "Crandall, Mayer, Papadopoulos 2003 (Pepin); no factor known",
-        28: "literature reports a known factor (Keller table) that we could not recall/verify; "
-            "our exhaustive search proves F28 has no prime factor < 2^54",
     }
     for n in sorted(set(range(0, max_n + 1)) | set(by_n)):
         fl = [r for r in by_n.get(n, []) if r["role"] != "F_n is prime"]
@@ -191,10 +191,10 @@ def main():
         else:
             status, evidence = "unknown", ""
         cof = ""
-        if n in pepin and pepin[n].get("suyama"):
-            cof = pepin[n]["suyama"]
-        elif full:
+        if full:
             cof = "fully factored (cofactor proven prime here)"
+        elif n in pepin and pepin[n].get("suyama"):
+            cof = pepin[n]["suyama"]
         num_rows.append(dict(
             n=n, value=str(fermat(n)) if n <= 5 else "",
             binary_digits=(1 << n) + 1, decimal_digits=decimal_digits_of_fermat(n),

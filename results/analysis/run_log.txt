@@ -1,0 +1,1 @@
+regions: ['R1', 'R2a', 'R2b', 'R2c']; m in [14, 3000]; observed factors: 84

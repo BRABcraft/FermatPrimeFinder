@@ -32,7 +32,10 @@ int main(int argc, char **argv) {
         if (i > 2) qs[nq++] = i;
         for (long j = (long)i * i; j <= QMAX; j += i) comp[j] = 1;
     }
-    uint64_t nodd = (KMAX > KMIN) ? (KMAX - KMIN + 1) / 2 : 0;  /* k = KMIN + 2i */
+    /* odd k = KMIN + 2i in [KMIN, KMAX] inclusive (KMIN made odd above).
+       Bug fix 2026-10-12 (found by adversarial review): was (KMAX-KMIN+1)/2, which
+       dropped k = KMAX when KMAX is odd. */
+    uint64_t nodd = (KMAX >= KMIN) ? (KMAX - KMIN) / 2 + 1 : 0;
     time_t t0 = time(NULL);
     uint64_t tested_total = 0;
 
@@ -51,10 +54,10 @@ int main(int argc, char **argv) {
             uint64_t inv2 = (q + 1) / 2;
             uint64_t i0 = ((k0 + q - KMIN % q) % q) * inv2 % q;
             for (uint64_t i = i0; i < nodd; i += q) {
-                /* p == q only possible if p small; p >= 2^m+1 > q when m >= 20 */
-                if (m < 21) {
+                /* never strike p itself when p == q (possible only if 2^m < q) */
+                if (m < 32 && ((uint64_t)1 << m) < q) {
                     uint64_t k = KMIN + 2 * i;
-                    if (k < (1ULL << 40) && ((k << m) + 1) == q) continue;
+                    if (k <= (q >> m) && ((k << m) + 1) == q) continue;
                 }
                 sv[i] = 0;
             }

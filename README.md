@@ -2,7 +2,8 @@
 
 Goal: find a Fermat prime F_n = 2^(2^n)+1 with n ≥ 5, or failing that, produce
 verified mathematical and computational results about Fermat numbers.
-**Result in one line:** no new Fermat prime was found, and none can be tested with present technology.
+**Result in one line:** no new Fermat prime was found. The smallest candidate, F33 (8.6·10^9 bits), is far beyond
+what can be Pépin-tested with the resources here (see the cost estimate in the report).
 See [`FINAL_REPORT.md`](FINAL_REPORT.md) for what *was* established.
 
 ## Layout

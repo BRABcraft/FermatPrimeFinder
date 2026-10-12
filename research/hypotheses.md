@@ -56,7 +56,92 @@ If p² | F_n then ord_{p²}(2) = 2^{n+1}, which divides p−1 by L2. ∎
 
 ## Part II — Research hypotheses (one record each)
 
-Records H1–H8 are filled in as experiments complete; see `research/experiment_log.md`.
+Data for all statistical records: the **exhaustive regions** in `results/search/regions.json`.
+Every prime factor of F_n (n ≥ 12) in these regions is known, so there is no selection bias.
+Statistics are in `results/analysis/summary.json`.
+
+### H1. Random-order-of-2 model for factor *counts*. CONSISTENT.
+*Statement.* A prime p = k·2^m+1 (k odd) divides some F_n, n ∈ [12, m−2], with probability (1 − 2^{13−m})/k.
+*Motivation.* 2 is a "random" quadratic residue; Chebotarev for fixed-size families.
+*Evidence.* Total: 76 observed vs 73.0 expected in R1 ∪ R2a ∪ R2b (Poisson p = 0.76). Counting function
+N(2^B) = #{p < 2^B, p | some F_n, n ≥ 5}: observed 1, 1, 2, 6, 11, 13, 15, 17, 20, 27, 31, 36 vs expected
+1.1, 2.1, 5.0, 7.2, 9.6, 12.4, 15.5, 18.6, 21.6, 25.0, 28.3, 31.8 for B = 10, 14, …, 54. All p > 0.24.
+Distribution over ⌊log₂ m⌋: p = 0.67.
+*Proof status.* A heuristic, so it cannot be proved for individual p. The density analogue is Theorem D below.
+*Consequence.* N(x) ≈ c·log x, so Fermat-divisor primes are exceedingly sparse. The model predicts N(x) ~ log₂ x.
+
+### H2. Geometric excess law P(e = t) = 2^{−(t+1)}, e = m − n − 2. CONSISTENT; density version PROVED (Theorem D).
+*Evidence.* e = 0, 1, 2, 3, 4, ≥5: observed 36/21/11/1/3/4 vs expected 37.2/18.3/9.0/4.4/2.1/2.1 (shape p = 0.29).
+MLE of the ratio: r̂ = 0.53, 95% CI [0.455, 0.605] ∋ 1/2.
+**Theorem D (density form).** Fix m ≥ 3. Among primes p with v₂(p−1) = m, the relative natural density of
+those with v₂(ord_p 2) = m−1−t is 2^{−(t+1)} for 0 ≤ t ≤ m−2, and 2^{−(m−1)} for t = m−1 (odd order).
+*Proof.* Let K = ℚ(ζ_{2^m}) and K' = ℚ(ζ_{2^{m+1}}). The primes with v₂(p−1) = m are those split in K
+and not split in K' (density 2^{−m} by Dirichlet). For such p and j ≤ m, 2 is a 2^j-th power mod p iff p splits completely
+in L_j = K(2^{1/2^j}). This holds because F_p^* ⊃ μ_{2^m} and the 2^j-th power map is well defined; Kummer theory applies since μ_{2^j} ⊂ K.
+(a) Degree. Let α = 2^{1/2^j} > 0. Then x^{2^j} − 2 is Eisenstein at 2, so [ℚ(α):ℚ] = 2^j. Since K/ℚ is
+Galois, [K(α):K] = [ℚ(α) : ℚ(α) ∩ K]. ℚ(α) ∩ K is a subfield of the abelian field K, so it is normal over ℚ. The subfields of
+ℚ(α) are the ℚ(α^{2^i}), and among them only ℚ and ℚ(√2) are normal over ℚ: ℚ(2^{1/4}) and the larger ones are real
+fields missing their complex conjugate roots. Since √2 = ζ_8 + ζ_8^{−1} ∈ K (m ≥ 3), ℚ(α) ∩ K = ℚ(√2) for j ≥ 1, and so
+[L_j : K] = 2^j / 2 = 2^{j−1}. *(Corrected after adversarial review. The earlier wording argued only that 2^{1/4} ∉ K,
+which by itself ignores roots of unity.)* L_j = K(α) is the splitting field of x^{2^j} − 2 over K (μ_{2^j} ⊂ K), hence Galois.
+(b) Disjointness: L_j/K is cyclic, so its unique quadratic subextension is K(2^{1/4}) (for j ≥ 2). If K(2^{1/4}) = K',
+then ℚ(2^{1/4}) ⊂ K' would be abelian. That is impossible as in (a). Hence L_j ∩ K' = K and [L_j K' : K] = 2^{j}.
+(c) Chebotarev in the compositum L_j K': the density of primes that split completely in L_j but not in K',
+relative to primes split in K and not in K', is [L_j : K]^{−1} = 2^{−(j−1)}. So, given v₂(p−1) = m,
+P(2 is a 2^j-th power) = 2^{1−j} (1 ≤ j ≤ m). Since v₂(ord_p 2) = m − (largest such j), we get
+P(v₂(ord) ≤ m−j) = 2^{1−j}, hence P(v₂(ord) = m−1−t) = 2^{−t} − 2^{−t−1} = 2^{−(t+1)}. The remainder at
+t = m−1 is 2^{−(m−1)}. ∎
+*Check against the literature.* Summing over m with weights 2^{−m}, and adding the m = 1, 2 cases (where 2 may be a non-residue),
+gives the density of primes with ord_p(2) even: 1/4 + 1/4 + Σ_{m≥3} 2^{−m}(1 − 2^{1−m}) = 17/24.
+This is **Hasse's theorem (1966)**. Numerically, over the 1,270,606 primes < 2·10^7 the fraction is 0.70827 (17/24 = 0.70833),
+and the per-m distributions match 2^{−(t+1)} to within sampling error (`results/density_check.json`).
+*Status.* PROVED (standard Chebotarev/Kummer argument; almost certainly known in the Hasse–Wiertelak–Moree
+literature on divisibility of orders, so **not claimed as new**). The Fermat-factor version (thin families with
+fixed k) remains heuristic but is statistically confirmed (H2 evidence above).
+
+### H3. The 1/k law: factor intensity ∝ k^{−α} with α = 1. CONSISTENT (rediscovered from data).
+*Evidence.* Maximum likelihood over the exhaustive data with C profiled out: α̂ = 0.955, 95% CI [0.915, 1.005].
+Joint likelihood-ratio test of (α, r) = (1, 1/2): LR = 3.40, p = 0.18 (2 dof). The bit-length(k) distribution has shape p = 0.28.
+*Interpretation.* The exponent 1 comes from "2 is a k-th power residue mod p" having probability 1/k. The data
+recover it to within ±5% without being told.
+
+### H4. Small-modulus structure of k beyond the model. NO EVIDENCE (one pre-registered follow-up: H-k3).
+*Experiment.* Automated conjecture generator: 369 tests (k mod M for 2 ≤ M ≤ 24, all residues; p mod q for
+odd primes q ≤ 31). Observed vs expected under the model, with exact Poisson tails.
+*Result.* 0 tests Bonferroni-significant at 0.05. 11 nominal p < 0.01, roughly as expected for 369 tests of discrete data.
+All structural zeros (classes forbidden by primality, e.g. p ≡ 0 mod q) were respected.
+The strongest raw signals are k ≡ 5 (mod 12) (23 vs 9.5, raw p = 3·10^{−4}, Bonferroni 0.11) and the k mod 3 table
+(shape p = 0.008) → see H-k3.
+
+### H5. Machine-learned features improve on the model score for predicting which primes divide Fermat numbers. NOT DETECTED (low power).
+*Design.* Case-control: 66 positives (all factors with p ≤ 600 bits in the exhaustive regions) and 3,960
+population-representative primes from the same region. Grouped 5-fold CV by m mod 5. 15 features
+(log₂k, m, k mod 3/5/7/8/16, popcount, ω(k), m mod 2/3/4, p mod 3/5/7).
+*Result (AUC, 95% bootstrap CI).* Model score −log k: 0.995 [0.985, 1.0]. Logistic on model score: 0.992.
+Logistic on model score + all features: 0.991. Gradient boosting on all features: 0.977 [0.939, 1.0]. Random: 0.48.
+Gradient boosting feature importance is 99.95% log₂k. **No learnable structure beyond the 1/k law was found.**
+*Power caveat (from adversarial review):* with 66 positives and AUC ≈ 0.99 already achieved by −log k, this design can
+only detect large effects. "Not detected" here means a weak upper bound, not proof of absence. This
+is consistent with Theorem D: the remaining information (power-residue symbols of 2 mod p) is invisible to
+low-complexity features of (k, m), and computing it is exactly the cost of the direct test.
+*Anomaly detection* (isolation forest) flags only the factors with extreme m (e.g. 431·2^{2099}+1, excess 8).
+Their excess values are within model expectations (P(e ≥ 8) = 1/256 per factor; with 76 factors, P(at least one) ≈ 0.26).
+
+### H6. A "theoretical shortcut" to the primality of F33. NOT FOUND (negative result with reasons).
+Approaches examined, and why each fails:
+1. *Congruence obstructions:* all known constraints (L2, power-residue conditions, Theorem D) concern divisors p.
+   They can rule candidate factors in or out, but say nothing about whether F_n itself has a factor at all.
+2. *Algebraic factorization:* none exists (L7).
+3. *Recurrences* (F_n = ∏F_i + 2 etc.): these determine F_n mod small numbers, which is uninformative about primality,
+   since F_n mod q is periodic in n with no prime-specific signal.
+4. *Faster Pépin:* Pépin computes 3^{2^{2^n−1}}. Any straight-line exponentiation of a fixed base to the exponent e = 2^{N−1}
+   needs at least N−1 multiplications, because an addition chain for e has length ≥ log₂ e.
+   So *this exponentiation*, and any test that consists of computing it (Pépin, and Proth/Lucas tests with
+   exponent ≈ F_n), costs ≥ 2^n − 1 modular multiplications of 2^n-bit numbers. This is elementary and known.
+   It says nothing about tests of an entirely different nature, which is exactly the open question.
+5. *Generic primality proofs* (ECPP, APR-CL, AKS) are asymptotically worse than Pépin at this size.
+6. *Heuristic outlook:* P(any new Fermat prime) ≈ 2·10^{−8} (`results/heuristic_probability.md`).
+*Status.* No route to a shortcut identified. This is not a proof that none exists.
 
 ### H-k3 (PRE-REGISTERED 2026-10-12, before inspecting region R2c output)
 **Statement under test.** Among prime factors p = k·2^m+1 of F_n (n ≥ 12), the residue k mod 3
@@ -73,3 +158,14 @@ k ≡ 2 in excess); *rejected as a fluctuation* if p > 0.1. Otherwise it stays *
 Secondary (exploratory, no decision rule): the shares of k ≡ 5 (mod 12) and k ≡ 5 (mod 11).
 **Prior.** Low. Chebotarev density arguments (Kummer fields ℚ(ζ_{3·2^m}, 2^{1/3}) are linearly disjoint from
 ℚ(ζ_{2^{m+1}})) support the model's prediction that 2 is a cubic residue with probability 1/3.
+**RESULT (hold-out R2c, run after pre-registration; `results/analysis/hk3_holdout.json`).** 14 factors (model total 13.97).
+k ≡ 0/1/2 (mod 3): observed 4/5/5 vs expected 7.10/3.45/3.42. (i) Poisson p for k ≡ 0: 0.33; (ii) shape G-test p = 0.24.
+**Decision by the pre-registered rule: REJECTED as a fluctuation** (p > 0.1). Secondary: k ≡ 5 (mod 12) 4 vs 1.67;
+k ≡ 5 (mod 11) 0 vs 1.25, so the mod-11 signal did not replicate at all.
+**Honest caveat (power analysis done after the fact, which is a lesson):** with only 14 hold-out factors, the
+test reaches p < 0.01 in only 8% of simulations even if the discovery-size effect were real, and lands in the "reject"
+zone 69% of the time. The hold-out likelihood ratio is ≈ 2.4 in favour of the discovery-size effect, which is weak evidence.
+So the data do not settle H-k3. Its status rests on the strong prior: the density of 2 being a cubic residue is 1/3
+by Chebotarev and is verified numerically to 0.3% in every m class (E8). **Overall status: most likely noise; not
+confirmed.** Settling it would need ≈ 10× more exhaustive hold-out factors. That costs ~10^2 core-hours with the current CPU code,
+and less with GPU sieves.

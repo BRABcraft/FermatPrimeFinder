@@ -60,10 +60,14 @@ def build_sample(m_kmax: dict[int, int], exact_max_odd: int = 512, s_small: int 
                  s_big: int = 48, big_bits: int = 64, seed: int = 1) -> list[WPrime]:
     rng = random.Random(seed)
     out: list[WPrime] = []
-    for m, kmax in sorted(m_kmax.items()):
+    for m, kr in sorted(m_kmax.items()):
+        kmin, kmax = (kr if isinstance(kr, tuple) else (1, kr))
         j = 0
         while (1 << j) <= kmax:
-            lo, hi = 1 << j, min((1 << (j + 1)) - 1, kmax)
+            lo, hi = max(1 << j, kmin), min((1 << (j + 1)) - 1, kmax)
+            if hi < lo:
+                j += 1
+                continue
             first = lo | 1
             n_odd = (hi - first) // 2 + 1 if hi >= first else 0
             if n_odd <= 0:

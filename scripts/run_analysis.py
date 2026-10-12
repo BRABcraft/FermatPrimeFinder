@@ -91,35 +91,64 @@ def pmod_array(A: Arr, q: int):
     return (kq * pw[A.m] + 1) % q
 
 
-def congruence_search(A: Arr, obs, max_mod=24):
-    """Automated conjecture generator: for every modulus M <= max_mod and residue
-    class r of k (and of p for small odd primes q), compare observed vs expected."""
-    tests = []
+def congruence_search(A: Arr, obs, max_mod=24, n_sim=300, seed=5):
+    """Automated conjecture generator: for every modulus M <= max_mod (skipping
+    M == 2 mod 4, which for odd k duplicates M/2) and residue class r of k, and
+    for p mod q (odd primes q <= 31), compare observed vs model-expected counts.
+    The null distribution of the number of nominal hits is calibrated by running
+    the identical search on n_sim synthetic datasets drawn from the model."""
+    feats = []   # (name, per-entry labels, per-observation labels, modulus)
     for M in range(2, max_mod + 1):
-        keys = np.array([k % M for k in A.kint])
-        exp = A.by_key(keys)
-        cnt = counts(obs, lambda k, m, n: k % M)
-        for r in range(M):
-            e, o = exp.get(r, 0.0), cnt.get(r, 0)
-            if e == 0 and o == 0:
-                continue
-            tests.append({"feature": f"k mod {M} == {r}", "observed": o, "expected": round(e, 3),
-                          "p": poisson_two_sided(o, e)})
+        if M % 4 == 2 and M > 2:
+            continue
+        feats.append((f"k mod {M}", np.array([k % M for k in A.kint]), [k % M for k, m, n in obs], M))
     for q in (3, 5, 7, 11, 13, 17, 19, 23, 29, 31):
-        exp = A.by_key(pmod_array(A, q))
-        cnt = counts(obs, lambda k, m, n: ((k << m) + 1) % q)
-        for r in range(q):
-            e, o = exp.get(r, 0.0), cnt.get(r, 0)
-            if e == 0 and o == 0:
+        feats.append((f"p mod {q}", pmod_array(A, q), [((k << m) + 1) % q for k, m, n in obs], q))
+    E = []
+    for name, lab, olab, M in feats:
+        E.append(np.array([A.mass[lab == r].sum() for r in range(M)]))
+
+    def pvals(counts_list):
+        ps = []
+        for cnts, ex in zip(counts_list, E):
+            for r in range(len(ex)):
+                if ex[r] == 0 and cnts[r] == 0:
+                    continue
+                ps.append(poisson_two_sided(int(cnts[r]), float(ex[r])))
+        return np.array(ps)
+    obs_counts = [np.bincount(np.array(olab, dtype=int), minlength=M) for _, _, olab, M in feats]
+    p_obs = pvals(obs_counts)
+    tests = []
+    i = 0
+    for (name, lab, olab, M), cnts, ex in zip(feats, obs_counts, E):
+        for r in range(M):
+            if ex[r] == 0 and cnts[r] == 0:
                 continue
-            tests.append({"feature": f"p mod {q} == {r}", "observed": o, "expected": round(e, 3),
-                          "p": poisson_two_sided(o, e)})
+            tests.append({"feature": f"{name} == {r}", "observed": int(cnts[r]), "expected": round(float(ex[r]), 3),
+                          "p": float(p_obs[i])})
+            i += 1
     nt = len(tests)
     for t in tests:
         t["p_bonferroni"] = min(1.0, t["p"] * nt)
+    # simulation-calibrated null
+    rng = np.random.default_rng(seed)
+    prob = A.mass / A.mass.sum()
+    tot = float(A.mass.sum())
+    sim_hits, sim_minp = [], []
+    for _ in range(n_sim):
+        N = rng.poisson(tot)
+        idx = rng.choice(len(prob), size=N, p=prob)
+        cl = [np.bincount(lab[idx].astype(int), minlength=M) for _, lab, _, M in feats]
+        ps = pvals(cl)
+        sim_hits.append(int((ps < 0.01).sum()))
+        sim_minp.append(float(ps.min()))
+    nh = int((p_obs < 0.01).sum())
     tests.sort(key=lambda t: t["p"])
-    # expected number of nominal p<0.01 hits under the null is ~1% of tests (discrete -> fewer)
-    return {"n_tests": nt, "n_nominal_p<0.01": sum(t["p"] < 0.01 for t in tests),
+    return {"n_tests": nt, "n_nominal_p<0.01": nh,
+            "null_sim_mean_hits_p<0.01": float(np.mean(sim_hits)),
+            "null_sim_P(hits>=observed)": float(np.mean(np.array(sim_hits) >= nh)),
+            "observed_min_p": float(p_obs.min()),
+            "null_sim_P(min_p<=observed_min_p)": float(np.mean(np.array(sim_minp) <= p_obs.min())),
             "n_significant_bonferroni_0.05": sum(t["p_bonferroni"] < 0.05 for t in tests),
             "top10": tests[:10],
             "structural_zeros_respected": all(t["observed"] == 0 for t in tests if t["expected"] == 0)}
@@ -263,6 +292,7 @@ def main():
                              counts(obs, lambda k, m, n: min(int(math.log2(m)), 11)), "floor(log2 m)")
     out["T6_congruence_search"] = congruence_search(A, obs)
     out["T7_mle"] = mle_alpha_r(A, obs)
+    out["T7_mle_seed2"] = mle_alpha_r(A2, obs)
     out["T8_ml"] = ml_experiments(A, obs)
     out["T9_counting_function"] = counting_function()
     os.makedirs(OUT, exist_ok=True)
@@ -275,6 +305,7 @@ def main():
     c = out["T6_congruence_search"]
     print("T6:", {k: v for k, v in c.items() if k != "top10"}, c["top10"][:3])
     print("T7:", json.dumps(out["T7_mle"]))
+    print("T7 seed2:", json.dumps(out["T7_mle_seed2"]))
     print("T8:", json.dumps({k: v for k, v in out["T8_ml"].items() if k not in ("features",)}, default=str))
     print("T9:", out["T9_counting_function"])
 

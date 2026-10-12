@@ -38,3 +38,40 @@ PARI/GP 2.15.4. No paid external compute was used.
   + shift/subtract reduction. Residues agree for all n tested (n = 8…16 so far); see results/pepin/.
 * F1–F4 prime; F5–F16 composite (reproduces known results).
 * Suyama: cofactors of F12–F16 (relative to factors then in the dataset) are proven composite.
+
+## E5 — Exhaustive search R1: all prime factors p < 2^54 of F_n, n ≥ 12 (fsearch64, 58 min)
+* 1.0995·10^12 candidates; 1.27·10^11 survived the sieve (primes ≤ 16381) and were tested.
+* 29 divisors reported; 3 were composite products of F12 factors (rejected by BPSW). The other 26 are prime factors of
+  F12, F13, F15–F19, F21, F23, F25–F27, F29, F30, F32, F36, F38, F39.
+* **Recall corrections:** the true F29 factor is 1120049·2^31+1 = 2405286912458753. My recalled
+  "1120048333814181889" was a garbled memory of it. **F28 has no prime factor < 2^54** (proved by this search),
+  so my recalled "25463·2^30+1" (composite) was wrong, and F28's literature factor lies above 2^54.
+* Regions certified: see `results/search/regions.json`.
+
+## E6 — Exhaustive rectangles R2a (k < 2^16, m ≤ 1000: 131 s) and R2b (k < 2^12, 1001 ≤ m ≤ 3000: 355 s)
+* 59 and 5 factors respectively. These include the classical small-k factors (5·2^39+1 | F36, 3·2^41+1 | F38,
+  5·2^1947+1 | F1945, …). R2c (2^16 < k < 2^20, m ≤ 1000) was started as an independent hold-out set.
+
+## E7 — Model tests on the exhaustive data (scripts/run_analysis.py)
+* Totals, counting function, excess law, 1/k law, ω(k), m-distribution: all consistent with the model.
+* MLE: α̂ = 0.955 [0.915, 1.005], r̂ = 0.53 [0.455, 0.605]; LR test vs (1, 1/2): p = 0.18.
+* 369-test congruence search: 0 Bonferroni-significant hits.
+* ML: gradient boosting (AUC 0.977) does not beat the model score −log k (AUC 0.995).
+* **Anomaly:** k mod 3 table 28/18/30 vs 37.0/18.5/17.4 (p = 0.008, not significant after multiplicity).
+  → Pre-registered as H-k3 with a decision rule, to be tested on hold-out R2c. Committed *before* R2c finished.
+* Implementation lesson: the first version of the analysis looped in pure Python (≈10^9 iterations) and was
+  killed. The vectorized version runs in ~12 min including Monte Carlo sample construction.
+
+## E8 — Theorem D (density form of the excess law) and numerical checks
+* Proof written in hypotheses.md (Chebotarev + Kummer; key point: 2^{1/4} ∉ ℚ(ζ_{2^m})).
+* Over the 1,270,606 primes < 2·10^7: fraction with ord_p(2) even = 0.70827 vs Hasse's 17/24 = 0.70833; per-m
+  excess distributions match 2^{−(t+1)}. P(2 is a cubic residue | 3 | p−1) = 1/3 in every m class (0.331–0.335).
+
+## E9 — Heuristic probability of a new Fermat prime
+* P(at least one prime F_n, 33 ≤ n ≤ 160 | our certified regions) = 2.1·10^{−8}. With hypothetical
+  k < 2^60 clearance it is 3.7·10^{−8}. Calibration on n = 5..32: expected 0.89 primes, P(none) = 0.36.
+
+## E10 — Pépin + Suyama, F17–F19 (both implementations), F20 (both, running), F21 (FFT only, running)
+* F17: 16.9 s (FFT) vs 26.5 s (full square + reduce). F18: 69 s vs 122 s. F19: 353 s vs 619 s (CPU shared with searches).
+* All residues agree between implementations and are consistent mod every known factor. Cofactors of F12–F19
+  (relative to all factors in the dataset) are proven composite by Suyama's test.

@@ -1,0 +1,33 @@
+{
+ "n_factors": 14,
+ "expected_seed11": {
+  "0": 7.097,
+  "1": 3.446,
+  "2": 3.422
+ },
+ "expected_total_seed11": 13.965,
+ "observed_k_mod3": [
+  4,
+  5,
+  5
+ ],
+ "i_poisson_p_k0": 0.3286608936117561,
+ "ii_shape_G": 2.8572393790829933,
+ "ii_shape_p": 0.23963947092936297,
+ "direction_same_as_discovery": true,
+ "decision": "REJECTED as fluctuation",
+ "secondary_k_mod12_eq5": [
+  4,
+  1.672
+ ],
+ "secondary_k_mod11_eq5": [
+  0,
+  1.245
+ ],
+ "expected_seed12": {
+  "0": 7.016,
+  "1": 3.223,
+  "2": 3.488
+ },
+ "expected_total_seed12": 13.727
+}

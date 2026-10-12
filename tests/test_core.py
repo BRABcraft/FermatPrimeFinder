@@ -100,3 +100,14 @@ def test_pepin_fft_matches_python():
                              capture_output=True, text=True).stdout
         res64 = out.split("res64=")[1].split()[0]
         assert int(res64, 16) == int(pepin_residue(n) % (1 << 64))
+
+
+@pytest.mark.skipif(not os.path.exists(os.path.join(ROOT, "src/c/fsearch_gmp")), reason="not built")
+def test_fsearch_gmp_inclusive_kmax():
+    # regression for the off-by-one found in adversarial review: k = KMAX must be tested
+    out = subprocess.run([os.path.join(ROOT, "src/c/fsearch_gmp"), "1", "7", "14", "14", "12", "1000"],
+                         capture_output=True, text=True).stdout
+    assert "FACTOR 7 14 12" in out
+    out = subprocess.run([os.path.join(ROOT, "src/c/fsearch_gmp"), "3", "3", "41", "41"],
+                         capture_output=True, text=True).stdout
+    assert "FACTOR 3 41 38" in out
