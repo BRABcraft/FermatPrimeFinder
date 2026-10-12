@@ -1,0 +1,6 @@
+n=18 bits=262144 fft_k=7 A_mulfft=2.4281e-04 B_mul+special=6.2423e-04 C_mul+mod=3.5765e-03 agree=1
+n=20 bits=1048576 fft_k=8 A_mulfft=2.0086e-03 B_mul+special=4.4045e-03 C_mul+mod=1.8759e-02 agree=1
+n=22 bits=4194304 fft_k=10 A_mulfft=6.2068e-03 B_mul+special=1.6735e-02 C_mul+mod=9.3909e-02 agree=1
+n=24 bits=16777216 fft_k=11 A_mulfft=5.7736e-02 B_mul+special=1.0470e-01 C_mul+mod=5.1915e-01 agree=1
+n=26 bits=67108864 fft_k=11 A_mulfft=2.5870e-01 B_mul+special=4.4176e-01 C_mul+mod=2.2528e+00 agree=1
+n=27 bits=134217728 fft_k=12 A_mulfft=5.1167e-01 B_mul+special=1.0416e+00 C_mul+mod=5.3416e+00 agree=1

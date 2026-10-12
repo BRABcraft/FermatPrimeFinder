@@ -7,7 +7,7 @@
 * **No new Fermat prime was found, and none is claimed.** The primary mission, a verified prime F_n with n ≥ 5,
   was not achieved.
 * The smallest Fermat number of unknown character is **F33** (2^33 + 1 ≈ 8.6·10^9 bits). Measured arithmetic costs
-  put a Pépin test of F33 at ≈ **14,000 core-years** on this machine (`results/benchmarks.md` §4).
+  put a Pépin test of F33 at ≈ **12,000–14,000 core-years** on this machine (`results/benchmarks.md` §4).
 * Under a model whose predictions we **tested and confirmed** on 84 exhaustively found factors, the probability that
   *any* further Fermat prime exists (33 ≤ n ≤ 160; larger n are negligible) is ≈ **2·10^{−8}** (at most 4·10^{−8} under any
   plausible search depth). This is a heuristic, not a theorem.
@@ -15,7 +15,7 @@
 * Secondary results: a fully verified, provenance-tracked dataset (127 prime factors); certified exhaustive factor
   searches; a confirmation, from data without selection bias, of the random-order-of-2 model (1/k law, geometric excess law,
   counting function); a proof of the density form of the excess law, which reproduces Hasse's 17/24; a ≈2× faster
-  Pépin/Suyama implementation; Pépin and Suyama results reproduced for F1–F21. None of the factors is new.
+  Pépin/Suyama implementation; Pépin and Suyama results reproduced for F1–F21. None of the factors, and none of the compositeness results, is new.
 
 ## 1. What is new versus known
 
@@ -54,9 +54,10 @@
      FermatSearch has excluded, but independently certified here.
 3. **Pépin + Suyama** (`results/pepin/`): F1–F4 prime; F5–F21 composite. Each residue was computed by two
    implementations for n ≤ 20 (FFT mod F_n, and full square + reduce). Every residue was checked mod every known prime factor:
-   R ≡ 3^{2^{2^n−1} mod (p−1)} (mod p). Suyama's test proves the cofactors of F12–F19 composite (C1133, C2391, C4880, C9808,
-   C19694, C39395, C78884, C157770, relative to the factors in our dataset). The F20 result reproduces Young–Buell (1988), which
-   showed F20 is composite without exhibiting a factor.
+   R ≡ 3^{2^{2^n−1} mod (p−1)} (mod p). Suyama's test proves the cofactors of F12–F19 and F21 composite (C1133, C2391, C4880,
+   C9808, C19694, C39395, C78884, C157770, C631294, relative to the factors in our dataset). The F20 result (two agreeing
+   implementations, 1620 s / 2918 s; SH residues (16865158641, 35626292569, 15265819636)) reproduces Young–Buell (1988),
+   which showed F20 is composite without exhibiting a factor. Published residues could not be retrieved for comparison.
 4. **Model tests** (`results/analysis/summary.json`, 84 bias-free factors):
    * total count 84 vs 85.3 expected;
    * counting function N(2^B) tracks the model for B = 10…54 (36 vs 31.8 at 2^54);

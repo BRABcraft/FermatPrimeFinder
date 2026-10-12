@@ -104,3 +104,17 @@ PARI/GP 2.15.4. No paid external compute was used.
 ## E14 — Benchmarks (results/benchmarks.md)
 * `mpn_mul_fft` directly mod F_n: ≈2× faster than square+reduce for n ≥ 18, ≈10× faster than generic mod.
 * F33 Pépin extrapolation: ≈52 s per squaring, ≈1.4·10^4 core-years on this hardware.
+
+## E15 — Pépin F20 (both implementations)
+* F20 COMPOSITE. FFT path 1620 s, square+reduce path 2918 s (shared CPU). Residues agree; res64 = 78791573ed3de5f1;
+  Selfridge–Hurwitz residues (mod 2^36, 2^36−1, 2^35−1) = (16865158641, 35626292569, 15265819636).
+* This reproduces Young & Buell (Math. Comp. 50 (1988) 261–263). Their published residues could not be retrieved
+  (network policy), so **no comparison with the published residue was made**.
+
+## E16 — Pépin F21 (FFT path only) + Suyama
+* F21 COMPOSITE, 7918 s; res64 = c4ae66d539b41b40; SH residues = (22442941248, 300257643, 30981963597).
+  Independent check: R mod 4485296422913 matches 3^{2^{2^21−1} mod (p−1)}. Suyama proves cofactor **C631294 composite**
+  (cofactor compositeness of F21 is, to our knowledge, already in the literature; not claimed as new).
+
+## Session close-out
+* All jobs finished; nothing left running. Total heavy compute ≈ 6–7 core-hours of CPU (searches ≈ 5 h, Pépin ≈ 2.5 h, analysis).

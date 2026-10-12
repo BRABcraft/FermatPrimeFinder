@@ -19,8 +19,8 @@ n,value,binary_digits,decimal_digits,status,status_evidence,fully_factored,num_k
 17,,131073,39457,composite,known prime factor verified here,False,2,31065037602817 7751061099802522589358967058392886922693580423169,"cofactor C39395 proven composite (Suyama test, this work)",5afc1fe36dc81ddd
 18,,262145,78914,composite,known prime factor verified here,False,2,13631489 81274690703860512587777,"cofactor C78884 proven composite (Suyama test, this work)",506a5a0abc27e6f0
 19,,524289,157827,composite,known prime factor verified here,False,3,70525124609 646730219521 37590055514133754286524446080499713,"cofactor C157770 proven composite (Suyama test, this work)",8c9339452e75f19c
-20,,1048577,315653,composite,literature only: Young & Buell 1988 (Pepin); no factor known,False,0,,,
-21,,2097153,631306,composite,known prime factor verified here,False,1,4485296422913,,
+20,,1048577,315653,composite,"Pepin test (this work, A+B (agree))",False,0,,,78791573ed3de5f1
+21,,2097153,631306,composite,known prime factor verified here,False,1,4485296422913,"cofactor C631294 proven composite (Suyama test, this work)",c4ae66d539b41b40
 22,,4194305,1262612,composite,known prime factor verified here,False,1,64658705994591851009055774868504577,,
 23,,8388609,2525223,composite,known prime factor verified here,False,1,167772161,,
 24,,16777217,5050446,composite,"literature only: Crandall, Mayer, Papadopoulos 2003 (Pepin); no factor known",False,0,,,

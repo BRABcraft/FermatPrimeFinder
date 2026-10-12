@@ -1,0 +1,14 @@
+{
+ "n": 20,
+ "time_A_s": 1620.155,
+ "impl_A_output": "n=20 verdict=COMPOSITE SH_residues=(16865158641, 35626292569, 15265819636) res64=78791573ed3de5f1 k_fft=8 squarings=1048575 time=1620.151s per_sq=1.55ms",
+ "time_B_s": 2918.162,
+ "impl": "A+B (agree)",
+ "verdict": "COMPOSITE",
+ "res64": "78791573ed3de5f1",
+ "SH_residues": [
+  16865158641,
+  35626292569,
+  15265819636
+ ]
+}

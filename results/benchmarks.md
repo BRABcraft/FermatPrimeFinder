@@ -13,6 +13,8 @@ Treat them as ±30%. The ratios between methods measured in the same run are mor
 | 25 | 33,554,432 | 116 ms | 233 ms | 956 ms | 2.0 | 8 |
 | 26 | 67,108,864 | 245 ms | 468 ms | 2456 ms | 1.9 | 10 |
 
+A second, quieter run (`results/bench_sqr_raw_quiet.txt`) gave A = 2.0 / 6.2 / 57.7 / 259 / 512 ms at n = 20 / 22 / 24 / 26 / 27,
+with B/A between 1.7 and 2.7, which is consistent with the above.
 All three methods produce identical residues ("agree=1"). For n ≤ 16 the FFT path is *slower* than B, because GMP uses
 Toom–Cook below its FFT threshold.
 
@@ -31,8 +33,8 @@ symbol (exported in libgmp.so but not part of the documented API), so a future G
 | 17 | 131,071 | 16.9 | 26.5 | 1.6 | composite | ✓ |
 | 18 | 262,143 | 69 | 122 | 1.8 | composite | ✓ |
 | 19 | 524,287 | 353 | 619 | 1.8 | composite | ✓ |
-| 20 | 1,048,575 | see results/pepin/F20.json | | | | |
-| 21 | 2,097,151 | see results/pepin/F21.json | (A only) | | | |
+| 20 | 1,048,575 | 1620 | 2918 | 1.8 | composite | A = B (no known factor to check against) |
+| 21 | 2,097,151 | 7918 | — (A only) | — | composite | R mod 4485296422913 ✓; Suyama: C631294 composite |
 
 ## 3. Exhaustive factor search throughput
 
@@ -48,13 +50,14 @@ added an unsieved C brute force. After the off-by-one fix, a regression test cov
 
 ## 4. What it would cost to decide F33 by Pépin's test
 
-Per-squaring time grows by ≈ 2.1–2.3× per unit of n here (the size doubles, plus the log factor). Extrapolating
-from n = 26 (0.245 s) with ×2.15 per step gives ≈ **52 s per squaring at n = 33**. Each operand is 8.6·10^9 bits = 1 GiB,
+Per-squaring time grows by ≈ 2.0–2.3× per unit of n here (the size doubles, plus the log factor). Extrapolating
+from n = 26 (0.245 s) with ×2.15 per step gives ≈ 52 s per squaring at n = 33. Extrapolating from n = 27 (0.512 s, quiet run) with ×2.1
+gives ≈ 44 s. So **≈ 45–50 s per squaring at n = 33**. Each operand is 8.6·10^9 bits = 1 GiB,
 and the FFT working set is several GiB, which is at or beyond this VM's 15 GB RAM. Pépin needs 2^33 − 1 ≈ 8.6·10^9 squarings:
 
-  8.6·10^9 × 52 s ≈ 4.5·10^11 s ≈ **14,000 core-years** on this hardware.
+  8.6·10^9 × (44–52 s) ≈ (3.8–4.5)·10^11 s ≈ **12,000–14,000 core-years** on this hardware.
 
 Perfect parallel scaling over 4 cores gives ≈ 3,500 years. A modern multi-GPU or large-cluster implementation
-(e.g. a DWT-based code like Mayer's Mlucas, with Gerbicz error checking) might be 10^3–10^4× faster, which still means years of
+(e.g. a DWT-based code like Mayer's Mlucas, with Gerbicz error checking) might be 10^3–10^4× faster (a rough, unverified guess), which would still mean years of
 dedicated hardware. **Conclusion: F33 is not decidable within this project by any amount of credit-funded
 reasoning. The bottleneck is raw arithmetic, not cleverness, unless a genuinely new theorem appears (Track A found none).**
