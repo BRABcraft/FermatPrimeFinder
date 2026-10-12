@@ -9,9 +9,6 @@
   10324303,
   10324303
  ],
- "known_factors": [
-  "641"
- ],
- "cofactor_digits": 7,
- "suyama": "cofactor C7 is a base-3 probable prime (Suyama) - needs proof"
+ "residue_mod_known_factors_consistent": true,
+ "suyama": "not needed: fully factored (all factors proven prime)"
 }

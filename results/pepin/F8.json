@@ -1,7 +1,7 @@
 {
  "n": 8,
- "time_A_s": 0.002,
- "impl_A_output": "n=8 verdict=COMPOSITE SH_residues=(46310188723, 35403253324, 30627284506) res64=6507e50ac84d66b3 k_fft=2 squarings=255 time=0.000s per_sq=0.000659ms",
+ "time_A_s": 0.003,
+ "impl_A_output": "n=8 verdict=COMPOSITE SH_residues=(46310188723, 35403253324, 30627284506) res64=6507e50ac84d66b3 k_fft=2 squarings=255 time=0.000s per_sq=0.000638ms",
  "time_B_s": 0.0,
  "impl": "A+B (agree)",
  "verdict": "COMPOSITE",
@@ -11,9 +11,6 @@
   35403253324,
   30627284506
  ],
- "known_factors": [
-  "1238926361552897"
- ],
- "cofactor_digits": 62,
- "suyama": "cofactor C62 is a base-3 probable prime (Suyama) - needs proof"
+ "residue_mod_known_factors_consistent": true,
+ "suyama": "not needed: fully factored (all factors proven prime)"
 }

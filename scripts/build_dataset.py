@@ -62,7 +62,8 @@ LITERATURE_FACTORS = [  # (n, p, provenance)
     (25, 204393464266227713, "[recalled, Keller table]"),
     (25, 2170072644496392193, "[recalled, Keller table]"),
     (27, 231292694251438081, "[recalled, Keller table]"),
-    (29, 1120048333814181889, "[recalled, Keller table]"),
+    (29, 1120048333814181889, "[recalled, Keller table] -- garbled recall; true factor 1120049*2^31+1 found by our search"),
+    (28, 25463 * 2**30 + 1, "[recalled, Keller table] -- wrong recall"),
     (31, 46931635677864055013377, "A. Kruppa 2001-04-12 [snippet: aliquot list / Prime-Wiki]"),
     (251, 322072887044529 * 2**253 + 1, "G. Gostin 2025-05-24 [snippet: fermatsearch news]"),
     (3135, 36812439837 * 2**3144 + 1, "G. Gostin 2025-11 [snippet: fermatsearch news]"),
@@ -169,7 +170,12 @@ def main():
         by_n.setdefault(r["n"], []).append(r)
     max_n = 40
     num_rows = []
-    lit_composite_no_factor = {20: "Young & Buell 1988 (Pepin)", 24: "Crandall, Mayer, Papadopoulos 2003 (Pepin)"}
+    lit_composite_no_factor = {
+        20: "Young & Buell 1988 (Pepin); no factor known",
+        24: "Crandall, Mayer, Papadopoulos 2003 (Pepin); no factor known",
+        28: "literature reports a known factor (Keller table) that we could not recall/verify; "
+            "our exhaustive search proves F28 has no prime factor < 2^54",
+    }
     for n in sorted(set(range(0, max_n + 1)) | set(by_n)):
         fl = [r for r in by_n.get(n, []) if r["role"] != "F_n is prime"]
         known = sorted(r["p"] for r in fl)

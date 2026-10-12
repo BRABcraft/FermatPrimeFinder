@@ -9,9 +9,6 @@
   9017941414,
   9190530327
  ],
- "known_factors": [
-  "274177"
- ],
- "cofactor_digits": 14,
- "suyama": "cofactor C14 is a base-3 probable prime (Suyama) - needs proof"
+ "residue_mod_known_factors_consistent": true,
+ "suyama": "not needed: fully factored (all factors proven prime)"
 }

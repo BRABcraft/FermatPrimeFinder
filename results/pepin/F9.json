@@ -11,10 +11,6 @@
   54966870189,
   28173182079
  ],
- "known_factors": [
-  "2424833",
-  "7455602825647884208337395736200454918783366342657"
- ],
- "cofactor_digits": 99,
- "suyama": "cofactor C99 is a base-3 probable prime (Suyama) - needs proof"
+ "residue_mod_known_factors_consistent": true,
+ "suyama": "not needed: fully factored (all factors proven prime)"
 }

@@ -1,8 +1,8 @@
 {
  "n": 16,
- "time_A_s": 3.703,
- "impl_A_output": "n=16 verdict=COMPOSITE SH_residues=(24695037109, 65390296136, 173595305) res64=40abb0c5bff05cb5 k_fft=6 squarings=65535 time=3.700s per_sq=0.0565ms",
- "time_B_s": 4.821,
+ "time_A_s": 4.111,
+ "impl_A_output": "n=16 verdict=COMPOSITE SH_residues=(24695037109, 65390296136, 173595305) res64=40abb0c5bff05cb5 k_fft=6 squarings=65535 time=4.108s per_sq=0.0627ms",
+ "time_B_s": 4.974,
  "impl": "A+B (agree)",
  "verdict": "COMPOSITE",
  "res64": "40abb0c5bff05cb5",
@@ -11,9 +11,11 @@
   65390296136,
   173595305
  ],
+ "residue_mod_known_factors_consistent": true,
  "known_factors": [
+  "825753601",
   "188981757975021318420037633"
  ],
- "cofactor_digits": 19703,
- "suyama": "cofactor C19703 proven composite (Suyama test, this work)"
+ "cofactor_digits": 19694,
+ "suyama": "cofactor C19694 proven composite (Suyama test, this work)"
 }

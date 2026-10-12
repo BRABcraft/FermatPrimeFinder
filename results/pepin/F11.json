@@ -1,7 +1,7 @@
 {
  "n": 11,
- "time_A_s": 0.013,
- "impl_A_output": "n=11 verdict=COMPOSITE SH_residues=(66666487080, 44928212591, 3934743084) res64=38ad5bcf85a1dd28 k_fft=5 squarings=2047 time=0.009s per_sq=0.00461ms",
+ "time_A_s": 0.018,
+ "impl_A_output": "n=11 verdict=COMPOSITE SH_residues=(66666487080, 44928212591, 3934743084) res64=38ad5bcf85a1dd28 k_fft=5 squarings=2047 time=0.015s per_sq=0.00753ms",
  "time_B_s": 0.001,
  "impl": "A+B (agree)",
  "verdict": "COMPOSITE",
@@ -11,12 +11,6 @@
   44928212591,
   3934743084
  ],
- "known_factors": [
-  "319489",
-  "974849",
-  "167988556341760475137",
-  "3560841906445833920513"
- ],
- "cofactor_digits": 564,
- "suyama": "cofactor C564 is a base-3 probable prime (Suyama) - needs proof"
+ "residue_mod_known_factors_consistent": true,
+ "suyama": "not needed: fully factored (all factors proven prime)"
 }

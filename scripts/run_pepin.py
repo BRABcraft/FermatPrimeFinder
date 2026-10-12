@@ -47,12 +47,12 @@ def residue_B(n: int):
     return R, time.time() - t
 
 
-def known_factors(n: int):
+def known_factors(n: int, roles=("prime factor",)):
     path = os.path.join(ROOT, "data", "fermat_factors.csv")
     ps = []
     if os.path.exists(path):
         for r in csv.DictReader(open(path)):
-            if int(r["n"]) == n and r["role"] == "prime factor":
+            if int(r["n"]) == n and r["role"] in roles:
                 ps.append(mpz(r["p"]))
     return ps
 
@@ -87,7 +87,23 @@ def main():
     rec["SH_residues"] = [int(R % (1 << 36)), int(R % ((1 << 36) - 1)), int(R % ((1 << 35) - 1))]
     # Suyama: if C = F/P is prime then 3^(F-1) == 3^(P-1) (mod C).
     ps = known_factors(n)
-    if ps and rec["verdict"] == "COMPOSITE":
+    allp = known_factors(n, roles=("prime factor", "prime cofactor"))
+    fully = len(allp) > len(ps)
+    # Cheap independent check of the whole squaring chain: for a known prime p | F_n,
+    # R mod p must equal 3^((F_n-1)/2 mod (p-1)) mod p, where (F_n-1)/2 = 2^(2^n - 1).
+    if allp:
+        checks = []
+        for p in allp:
+            e = gmpy2.powmod(2, (1 << n) - 1, p - 1)
+            checks.append(bool(R % p == gmpy2.powmod(3, e, p)))
+        rec["residue_mod_known_factors_consistent"] = all(checks)
+        if not all(checks):
+            rec["verdict"] = "INCONSISTENT"
+            print(json.dumps(rec, indent=1))
+            sys.exit(3)
+    if fully:
+        rec["suyama"] = "not needed: fully factored (all factors proven prime)"
+    elif ps and rec["verdict"] == "COMPOSITE":
         P = mpz(1)
         for p in ps:
             P *= p

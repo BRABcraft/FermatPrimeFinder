@@ -4,3 +4,4 @@ __pycache__/
 src/c/fsearch64
 src/c/fsearch_gmp
 src/c/pepin_fft
+src/c/bench_sqr

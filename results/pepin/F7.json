@@ -9,9 +9,6 @@
   44591026080,
   5799525263
  ],
- "known_factors": [
-  "59649589127497217"
- ],
- "cofactor_digits": 22,
- "suyama": "cofactor C22 is a base-3 probable prime (Suyama) - needs proof"
+ "residue_mod_known_factors_consistent": true,
+ "suyama": "not needed: fully factored (all factors proven prime)"
 }
